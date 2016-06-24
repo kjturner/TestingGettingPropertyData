@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StagingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PropertyAssessment">
+          <Key>
+            <PropertyRef Name="Account_Number" />
+          </Key>
+          <Property Name="Account_Number" Type="int" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="100" />
+          <Property Name="Unit" Type="varchar" MaxLength="28" />
+          <Property Name="Homestead_Exemption" Type="varchar" MaxLength="16" />
+          <Property Name="Property_Category" Type="varchar" MaxLength="48" />
+          <Property Name="Property_Type" Type="varchar" MaxLength="56" />
+          <Property Name="Market_Value" Type="int" />
+          <Property Name="Taxable_Land" Type="int" />
+          <Property Name="Taxable_Building" Type="int" />
+          <Property Name="Exempt_Land" Type="int" />
+          <Property Name="Exempt_Building" Type="int" />
+          <Property Name="Longitude" Type="real" />
+          <Property Name="Latitude" Type="real" />
+          <Property Name="AcctNumStr" Type="varchar" MaxLength="11" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="PropertyData">
+          <Key>
+            <PropertyRef Name="Account_Number" />
+          </Key>
+          <Property Name="Account_Number" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+          <Property Name="results" Type="varchar(max)" />
+          <Property Name="AcctNumStr" Type="varchar" MaxLength="11" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityContainer Name="StagingModelStoreContainer">
+          <EntitySet Name="PropertyAssessment" EntityType="Self.PropertyAssessment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropertyData" EntityType="Self.PropertyData" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StagingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="StagingEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="PropertyAssessments" EntityType="StagingModel.PropertyAssessment" />
+          <EntitySet Name="PropertyDatas" EntityType="StagingModel.PropertyData" />
+        </EntityContainer>
+        <EntityType Name="PropertyAssessment">
+          <Key>
+            <PropertyRef Name="Account_Number" />
+          </Key>
+          <Property Name="Account_Number" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="String" MaxLength="28" FixedLength="false" Unicode="false" />
+          <Property Name="Homestead_Exemption" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Property_Category" Type="String" MaxLength="48" FixedLength="false" Unicode="false" />
+          <Property Name="Property_Type" Type="String" MaxLength="56" FixedLength="false" Unicode="false" />
+          <Property Name="Market_Value" Type="Int32" />
+          <Property Name="Taxable_Land" Type="Int32" />
+          <Property Name="Taxable_Building" Type="Int32" />
+          <Property Name="Exempt_Land" Type="Int32" />
+          <Property Name="Exempt_Building" Type="Int32" />
+          <Property Name="Longitude" Type="Single" />
+          <Property Name="Latitude" Type="Single" />
+          <Property Name="AcctNumStr" Type="String" MaxLength="11" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="PropertyData">
+          <Key>
+            <PropertyRef Name="Account_Number" />
+          </Key>
+          <Property Name="Account_Number" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="results" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AcctNumStr" Type="String" MaxLength="11" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StagingModelStoreContainer" CdmEntityContainer="StagingEntities" >
+          <EntitySetMapping Name="PropertyAssessments">
+            <EntityTypeMapping TypeName="StagingModel.PropertyAssessment">
+              <MappingFragment StoreEntitySet="PropertyAssessment">
+                <ScalarProperty Name="AcctNumStr" ColumnName="AcctNumStr" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Exempt_Building" ColumnName="Exempt_Building" />
+                <ScalarProperty Name="Exempt_Land" ColumnName="Exempt_Land" />
+                <ScalarProperty Name="Taxable_Building" ColumnName="Taxable_Building" />
+                <ScalarProperty Name="Taxable_Land" ColumnName="Taxable_Land" />
+                <ScalarProperty Name="Market_Value" ColumnName="Market_Value" />
+                <ScalarProperty Name="Property_Type" ColumnName="Property_Type" />
+                <ScalarProperty Name="Property_Category" ColumnName="Property_Category" />
+                <ScalarProperty Name="Homestead_Exemption" ColumnName="Homestead_Exemption" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Account_Number" ColumnName="Account_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropertyDatas">
+            <EntityTypeMapping TypeName="StagingModel.PropertyData">
+              <MappingFragment StoreEntitySet="PropertyData">
+                <ScalarProperty Name="AcctNumStr" ColumnName="AcctNumStr" />
+                <ScalarProperty Name="results" ColumnName="results" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Account_Number" ColumnName="Account_Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
