@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Data.Entity.SqlServer;
+using Newtonsoft.Json;
 
 namespace TestingGettingPropertyData
 {
@@ -30,14 +31,7 @@ namespace TestingGettingPropertyData
             var i = context.PropertyDatas
                     .Where(x => x.Status.Equals(null))
                     .OrderBy(x => Guid.NewGuid())
-                    //.Select(x => x.AcctNumStr)
                     .Take(ct);
-
-
-
-
-
-
 
             return i.Select(x => x.AcctNumStr)
                 .ToList();
@@ -99,21 +93,10 @@ namespace TestingGettingPropertyData
 
 
         }
-        static void Main(string[] args)
+
+
+        static void nonAsync()
         {
-
-            //for (int i = 0; i < 1000; i++)
-            //{
-            //    Console.WriteLine("Itter :" + i);
-            //    try
-            //    {
-            //        MainAsync().Wait();
-            //    }
-            //    catch (Exception e)
-            //    {
-            //    }
-            //}
-
             string sURL;
             WebRequest wrGETURL;
             Stream objStream;
@@ -127,7 +110,7 @@ namespace TestingGettingPropertyData
 
                 var context = new StagingEntities();
                 var a = context.PropertyDatas
-                        .Where(x => x.Status.Equals(null))
+                        .Where(x => x.Status.Equals("failed"))
                         .OrderBy(x => Guid.NewGuid())
                         .Take(1);
 
@@ -137,7 +120,7 @@ namespace TestingGettingPropertyData
                 {
                     sURL = "http://api.phila.gov/opa/v1.1/account/" + acct + "?format=json";
                     wrGETURL = WebRequest.Create(sURL);
-                    wrGETURL.Timeout = 2000;
+                    wrGETURL.Timeout = 10000;
                     objStream = wrGETURL.GetResponse().GetResponseStream();
                     StreamReader objReader = new StreamReader(objStream);
                     results = objReader.ReadLine();
@@ -156,45 +139,19 @@ namespace TestingGettingPropertyData
                     }
                 }
             }
-
-
-
-
         }
-
-        #region MyRegion
-
-        /*
-        string account = getAccountIDs();
-        string sURL;
-        WebRequest wrGETURL;
-        Stream objStream;
-        string results;
-
-        try
+        static void Main(string[] args)
         {
-            sURL = "http://api.phila.gov/opa/v1.1/account/" + account + "?format=json";
-            wrGETURL = WebRequest.Create(sURL);
-            wrGETURL.Timeout = 2000;
-            objStream = wrGETURL.GetResponse().GetResponseStream();
-            StreamReader objReader = new StreamReader(objStream);
-            results = objReader.ReadLine();
-            Console.WriteLine("Success: " + sURL);
-            UpdateTable(account, "success", results);
-            results = null;
-        }
-        catch (WebException e)
-        {
-            using (WebResponse response = e.Response)
-            {
-                // Console.WriteLine("Failed Response: " + response.ResponseUri.AbsoluteUri);
-                Console.WriteLine("Failed Response: ");
 
-                 UpdateTable(account, "failed", null);
-            }
+            var context = new StagingEntities();
+            PropertyData prop = context.PropertyDatas
+                .Where(x => x.Status.Equals("success"))
+                .FirstOrDefault();
+
+            RootObject result = JsonConvert.DeserializeObject<RootObject>(prop.results);
         }
-        */
-        #endregion
+
+     
     }
 }
 
